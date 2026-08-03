@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(145deg, #1a1e2c 0%, #0f1219 100%);
+            background: #d1d5db;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,12 +24,11 @@
         .app-container {
             max-width: 650px;
             width: 100%;
-            background: rgba(26, 30, 44, 0.85);
-            backdrop-filter: blur(6px);
+            background: #e8dff5;
             border-radius: 40px;
             padding: 20px 16px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         .header {
@@ -38,24 +37,24 @@
         }
 
         .header h1 {
-            color: #f0e9d8;
-            font-weight: 400;
+            color: #2d1b4e;
+            font-weight: 600;
             font-size: 22px;
             letter-spacing: 1px;
         }
 
         .header h1 .spade {
-            color: #fbbf24;
+            color: #2d1b4e;
             font-size: 26px;
         }
 
         .header .sub-brand {
-            color: #7b839e;
+            color: #5b4a7a;
             font-size: 12px;
             letter-spacing: 2px;
             margin-top: 2px;
-            opacity: 0.6;
-            font-weight: 300;
+            opacity: 0.8;
+            font-weight: 400;
         }
 
         .header .sub-brand span {
@@ -64,19 +63,20 @@
         }
 
         .card-section {
-            background: rgba(18, 22, 33, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 14px;
             padding: 14px 16px;
             margin-bottom: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(2px);
         }
 
         .card-section .title {
-            color: #7b839e;
+            color: #3d2a5c;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
@@ -84,12 +84,12 @@
         }
 
         .card-section .title .badge {
-            background: rgba(251, 191, 36, 0.12);
-            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            color: #92400e;
             padding: 2px 10px;
             border-radius: 10px;
             font-size: 9px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .card-row {
@@ -102,9 +102,9 @@
         .card-slot {
             width: 48px;
             height: 66px;
-            border-radius: 6px;
-            border: 2px solid #2e3548;
-            background: #0c0f17;
+            border-radius: 8px;
+            border: 2px solid #c4b5d4;
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -112,22 +112,23 @@
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .card-slot:hover {
             border-color: #fbbf24;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
         }
 
         .card-slot.selected {
             border-color: #fbbf24;
-            background: rgba(251, 191, 36, 0.08);
+            background: #fef9e7;
         }
 
         .card-slot .placeholder {
             font-size: 11px;
-            color: #4a5070;
-            opacity: 0.3;
+            color: #9ca3af;
+            opacity: 0.6;
         }
 
         .card-slot .rank {
@@ -142,24 +143,24 @@
         }
 
         .card-slot .suit-heart {
-            color: #dc2626;
+            color: #dc2626 !important;
         }
         .card-slot .suit-diamond {
-            color: #dc2626;
+            color: #2563eb !important;
         }
         .card-slot .suit-spade {
-            color: #f0e9d8;
+            color: #1f2937 !important;
         }
         .card-slot .suit-club {
-            color: #f0e9d8;
+            color: #16a34a !important;
         }
 
         .btn-clear {
             padding: 5px 12px;
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.12);
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.2);
             border-radius: 6px;
-            color: #fbbf24;
+            color: #92400e;
             font-size: 10px;
             font-weight: 600;
             cursor: pointer;
@@ -167,15 +168,15 @@
         }
 
         .btn-clear:hover {
-            background: rgba(251, 191, 36, 0.15);
+            background: rgba(251, 191, 36, 0.25);
         }
 
         .btn-add {
             padding: 5px 12px;
-            background: rgba(22, 163, 74, 0.15);
+            background: rgba(22, 163, 74, 0.12);
             border: 1px solid rgba(22, 163, 74, 0.2);
             border-radius: 6px;
-            color: #16a34a;
+            color: #166534;
             font-size: 10px;
             font-weight: 600;
             cursor: pointer;
@@ -186,26 +187,42 @@
             background: rgba(22, 163, 74, 0.25);
         }
 
+        .btn-random {
+            padding: 5px 12px;
+            background: rgba(251, 191, 36, 0.10);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 6px;
+            color: #92400e;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-random:hover {
+            background: rgba(251, 191, 36, 0.25);
+        }
+
         .result-section {
-            background: rgba(18, 22, 33, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 14px;
             padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             margin-bottom: 14px;
             text-align: center;
         }
 
         .result-section .label {
-            color: #7b839e;
+            color: #4b3a6a;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .result-section .value {
-            color: #f0e9d8;
-            font-size: 36px;
+            color: #2d1b4e;
+            font-size: 32px;
             font-weight: 700;
             margin-top: 2px;
         }
@@ -215,9 +232,14 @@
         }
 
         .result-section .sub {
-            color: #a9b0c9;
+            color: #4b3a6a;
             font-size: 13px;
             margin-top: 4px;
+        }
+
+        .result-section .sub .draw {
+            color: #2563eb;
+            font-weight: 700;
         }
 
         .rating-grid {
@@ -228,49 +250,39 @@
         }
 
         .rating-item {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.04);
             border-radius: 8px;
             padding: 8px;
             text-align: center;
         }
 
         .rating-item .label {
-            color: #7b839e;
+            color: #4b3a6a;
             font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .rating-item .value {
-            color: #f0e9d8;
+            color: #2d1b4e;
             font-size: 16px;
             font-weight: 700;
             margin-top: 2px;
         }
 
-        .rating-item .value .great {
-            color: #16a34a;
-        }
-        .rating-item .value .good {
-            color: #86efac;
-        }
-        .rating-item .value .medium {
-            color: #fcd34d;
-        }
-        .rating-item .value .weak {
-            color: #f97316;
-        }
-        .rating-item .value .trash {
-            color: #dc2626;
-        }
+        .rating-item .value .great { color: #16a34a; }
+        .rating-item .value .good { color: #2563eb; }
+        .rating-item .value .medium { color: #f59e0b; }
+        .rating-item .value .weak { color: #f97316; }
+        .rating-item .value .trash { color: #dc2626; }
 
         .tip-box {
-            background: rgba(251, 191, 36, 0.05);
+            background: rgba(251, 191, 36, 0.08);
             border-left: 3px solid #fbbf24;
             border-radius: 8px;
             padding: 10px 14px;
-            color: #d4d9ec;
+            color: #2d1b4e;
             font-size: 13px;
             line-height: 1.5;
             margin-top: 10px;
@@ -278,7 +290,7 @@
         }
 
         .tip-box strong {
-            color: #fbbf24;
+            color: #92400e;
         }
 
         .info-grid {
@@ -289,36 +301,30 @@
         }
 
         .info-item {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.04);
             border-radius: 8px;
             padding: 8px;
             text-align: center;
         }
 
         .info-item .label {
-            color: #7b839e;
+            color: #4b3a6a;
             font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .info-item .value {
-            color: #f0e9d8;
-            font-size: 20px;
+            color: #2d1b4e;
+            font-size: 18px;
             font-weight: 700;
             margin-top: 2px;
         }
 
-        .info-item .value .win {
-            color: #16a34a;
-        }
-        .info-item .value .lose {
-            color: #dc2626;
-        }
-        .info-item .value .tie {
-            color: #fbbf24;
-        }
+        .info-item .value .win { color: #16a34a; }
+        .info-item .value .lose { color: #dc2626; }
+        .info-item .value .tie { color: #f59e0b; }
 
         .calc-btn {
             width: 100%;
@@ -329,7 +335,7 @@
             border-radius: 10px;
             font-size: 16px;
             font-weight: 700;
-            color: #0f1219;
+            color: #2d1b4e;
             cursor: pointer;
             transition: 0.2s;
             text-transform: uppercase;
@@ -345,6 +351,45 @@
             transform: scale(0.97);
         }
 
+        .outs-category {
+            margin-top: 6px;
+            text-align: left;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .outs-category .cat-label {
+            color: #4b3a6a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .outs-category .cat-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            margin-top: 2px;
+        }
+
+        .outs-category .cat-cards .card-mini {
+            background: #ffffff;
+            border: 1px solid #c4b5d4;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 1px 2px;
+        }
+
+        .outs-category.quality-good {
+            border-left: 3px solid #16a34a;
+        }
+
         .card-picker-overlay {
             display: none;
             position: fixed;
@@ -352,7 +397,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 100;
             align-items: center;
             justify-content: center;
@@ -364,20 +409,20 @@
         }
 
         .card-picker {
-            background: #1a1e2c;
+            background: #f5f0fa;
             border-radius: 20px;
             padding: 20px 16px;
             max-width: 400px;
             width: 92%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
             max-height: 80vh;
             overflow-y: auto;
         }
 
         .card-picker h3 {
-            color: #f0e9d8;
-            font-weight: 400;
+            color: #2d1b4e;
+            font-weight: 600;
             font-size: 15px;
             text-align: center;
             margin-bottom: 12px;
@@ -391,21 +436,21 @@
 
         .picker-card {
             padding: 6px 4px;
-            background: rgba(18, 22, 33, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #ffffff;
+            border: 1px solid #c4b5d4;
             border-radius: 6px;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
             font-size: 13px;
             font-weight: 600;
-            color: #a9b0c9;
+            color: #2d1b4e;
         }
 
         .picker-card:hover {
-            background: rgba(251, 191, 36, 0.08);
+            background: #fef9e7;
             border-color: #fbbf24;
-            color: #fbbf24;
+            color: #92400e;
         }
 
         .picker-card .rank {
@@ -416,47 +461,70 @@
             font-size: 15px;
         }
 
+        .picker-card .suit-heart { color: #dc2626 !important; }
+        .picker-card .suit-diamond { color: #2563eb !important; }
+        .picker-card .suit-spade { color: #1f2937 !important; }
+        .picker-card .suit-club { color: #16a34a !important; }
+
         .picker-close {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.05);
             border: none;
             border-radius: 6px;
-            color: #a9b0c9;
+            color: #4b3a6a;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
         }
 
         .picker-close:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        .outs-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            justify-content: center;
-            margin-top: 6px;
+        /* Стили для оддсов */
+        .odds-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 14px;
+            text-align: center;
         }
 
-        .outs-list .card-mini {
-            background: #0c0f17;
-            border: 1px solid #2e3548;
-            border-radius: 4px;
-            padding: 2px 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #d4d9ec;
+        .odds-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .outs-list .card-mini .red {
-            color: #dc2626;
+        .odds-item {
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
         }
-        .outs-list .card-mini .black {
-            color: #f0e9d8;
+
+        .odds-item .label {
+            color: #4b3a6a;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
         }
+
+        .odds-item .value {
+            color: #2d1b4e;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .odds-item .value .good { color: #16a34a; }
+        .odds-item .value .bad { color: #dc2626; }
+        .odds-item .value .medium { color: #f59e0b; }
 
         @media (max-width: 480px) {
             .card-slot {
@@ -483,6 +551,9 @@
             }
             .info-item .value {
                 font-size: 16px;
+            }
+            .odds-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -560,9 +631,9 @@
                 <button class="btn-clear" onclick="clearBoardCards()">✕ Очистить</button>
             </div>
             <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
-                <button class="btn-add" onclick="setBoardFlop()">🎲 Флоп (3)</button>
-                <button class="btn-add" onclick="setBoardTurn()">🎲 Терн (4)</button>
-                <button class="btn-add" onclick="setBoardRiver()">🎲 Ривер (5)</button>
+                <button class="btn-random" onclick="setBoardFlop()">🎲 Флоп (3)</button>
+                <button class="btn-random" onclick="setBoardTurn()">🎲 Терн (+1)</button>
+                <button class="btn-random" onclick="setBoardRiver()">🎲 Ривер (+1)</button>
             </div>
         </div>
 
@@ -576,22 +647,42 @@
                     <div class="value" id="currentHand">—</div>
                 </div>
                 <div class="info-item">
-                    <div class="label">Натс на столе</div>
-                    <div class="value" id="nutsHand">—</div>
+                    <div class="label">Комбинации старше</div>
+                    <div class="value" id="betterHands">—</div>
                 </div>
                 <div class="info-item">
-                    <div class="label">Ауты</div>
+                    <div class="label">Всего аутов</div>
                     <div class="value" id="outsCount">—</div>
                 </div>
             </div>
 
             <div id="outsContainer" style="display:none;">
-                <div class="label" style="margin-top:8px; font-size:10px; color:#7b839e; text-transform:uppercase;">Карты для улучшения</div>
-                <div class="outs-list" id="outsList"></div>
+                <div class="label" style="margin-top:8px; font-size:10px; color:#4b3a6a; text-transform:uppercase;">Ауты</div>
+                <div id="outsCategories"></div>
             </div>
 
             <div class="tip-box" id="handAnalysisTip">
                 💡 <strong>Подсказка:</strong> Добавь карты на стол (минимум 3), чтобы увидеть анализ руки.
+            </div>
+        </div>
+
+        <!-- ОДДСЫ И ШАНСЫ БАНКА -->
+        <div class="odds-section">
+            <div class="label">Оддсы и шансы банка</div>
+            
+            <div class="odds-grid">
+                <div class="odds-item">
+                    <div class="label">Твои шансы на победу</div>
+                    <div class="value" id="winOdds">—</div>
+                </div>
+                <div class="odds-item">
+                    <div class="label">Макс. ставка для колла</div>
+                    <div class="value" id="maxBet">—</div>
+                </div>
+            </div>
+
+            <div class="tip-box" id="oddsTip" style="margin-top:8px;">
+                💡 <strong>Подсказка:</strong> Добавь карты на стол, чтобы увидеть шансы.
             </div>
         </div>
 
@@ -654,11 +745,12 @@
         let state = {
             hero: [null, null],
             board: [null, null, null, null, null],
-            selectedSlot: null
+            selectedSlot: null,
+            equity: 0
         };
 
         // ============================================================
-        //  3. РЕЙТИНГ РУК (ДЛЯ СИЛЫ РУКИ) — СОКРАЩЁННАЯ ВЕРСИЯ
+        //  3. РЕЙТИНГ РУК (ДЛЯ СИЛЫ РУКИ)
         // ============================================================
         function getHandRanking(card1, card2) {
             if (!card1 || !card2) return null;
@@ -717,14 +809,12 @@
                 };
             }
 
-            // Не-пары
             let base = 0,
                 category = '',
                 position = '',
                 advice = '';
             const key = highRank + lowRank;
 
-            // Упрощённая логика для демонстрации
             if (highRank === 'A') {
                 if (isSuited) {
                     if (lowRank === 'K') { base = 2;
@@ -891,10 +981,15 @@
             if (!el) return;
 
             if (card) {
-                const isRed = card.suit === '♥' || card.suit === '♦';
+                let colorClass = '';
+                if (card.suit === '♥') colorClass = 'suit-heart';
+                else if (card.suit === '♦') colorClass = 'suit-diamond';
+                else if (card.suit === '♣') colorClass = 'suit-club';
+                else colorClass = 'suit-spade';
+                
                 el.innerHTML = `
-                    <span class="rank ${isRed ? 'suit-heart' : 'suit-spade'}">${card.rank}</span>
-                    <span class="suit ${isRed ? 'suit-heart' : 'suit-spade'}">${card.suit}</span>
+                    <span class="rank ${colorClass}">${card.rank}</span>
+                    <span class="suit ${colorClass}">${card.suit}</span>
                 `;
                 el.classList.add('selected');
             } else {
@@ -965,14 +1060,23 @@
             const index = parseInt(parts[1]);
 
             const usedCards = new Set();
-
+            
+            for (let c of state.hero) { 
+                if (c) usedCards.add(c.rank + c.suit); 
+            }
+            
+            for (let c of state.board) { 
+                if (c) usedCards.add(c.rank + c.suit); 
+            }
+            
             if (type === 'hero') {
-                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
-                if (state.hero[index]) usedCards.delete(state.hero[index].rank + state.hero[index].suit);
+                if (state.hero[index]) {
+                    usedCards.delete(state.hero[index].rank + state.hero[index].suit);
+                }
             } else if (type === 'board') {
-                for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
-                if (state.board[index]) usedCards.delete(state.board[index].rank + state.board[index].suit);
-                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+                if (state.board[index]) {
+                    usedCards.delete(state.board[index].rank + state.board[index].suit);
+                }
             }
 
             const overlay = document.getElementById('pickerOverlay');
@@ -988,26 +1092,35 @@
                 for (let suit of SUITS) {
                     const key = rank + suit;
                     const isUsed = usedCards.has(key);
-                    const isRed = suit === '♥' || suit === '♦';
+                    let colorClass = '';
+                    if (suit === '♥') colorClass = 'suit-heart';
+                    else if (suit === '♦') colorClass = 'suit-diamond';
+                    else if (suit === '♣') colorClass = 'suit-club';
+                    else colorClass = 'suit-spade';
+                    
                     const div = document.createElement('div');
                     div.className = 'picker-card';
                     div.style.opacity = isUsed ? '0.2' : '1';
                     div.style.cursor = isUsed ? 'not-allowed' : 'pointer';
                     div.innerHTML = `
-                        <span class="rank ${isRed ? 'suit-heart' : 'suit-spade'}">${rank}</span>
-                        <span class="suit ${isRed ? 'suit-heart' : 'suit-spade'}">${suit}</span>
+                        <span class="rank ${colorClass}">${rank}</span>
+                        <span class="suit ${colorClass}">${suit}</span>
                     `;
                     if (!isUsed) {
                         div.onclick = () => {
                             const card = { rank, suit };
-                            if (type === 'hero') { state.hero[index] = card;
+                            if (type === 'hero') { 
+                                state.hero[index] = card;
                                 renderAllCards();
                                 updateResult();
                                 updateHandAnalysis();
-                                closePicker(); } else if (type === 'board') { state.board[index] = card;
+                                closePicker(); 
+                            } else if (type === 'board') { 
+                                state.board[index] = card;
                                 renderAllCards();
                                 updateHandAnalysis();
-                                closePicker(); }
+                                closePicker(); 
+                            }
                         };
                     }
                     grid.appendChild(div);
@@ -1058,20 +1171,29 @@
             document.getElementById('tieEquity').textContent = '—';
             document.getElementById('loseEquity').textContent = '—';
             document.getElementById('equityTip').innerHTML = '💡 <strong>Подсказка:</strong> Добавь карты на стол, чтобы рассчитать шансы.';
+            document.getElementById('winOdds').textContent = '—';
+            document.getElementById('maxBet').textContent = '—';
         }
 
         function clearAnalysis() {
             document.getElementById('currentHand').textContent = '—';
-            document.getElementById('nutsHand').textContent = '—';
+            document.getElementById('betterHands').textContent = '—';
             document.getElementById('outsCount').textContent = '—';
             document.getElementById('outsContainer').style.display = 'none';
+            document.getElementById('outsCategories').innerHTML = '';
             document.getElementById('handAnalysisTip').innerHTML = '💡 <strong>Подсказка:</strong> Добавь карты на стол (минимум 3), чтобы увидеть анализ руки.';
+            document.getElementById('winOdds').textContent = '—';
+            document.getElementById('maxBet').textContent = '—';
         }
 
+        // ============================================================
+        //  8. РАНДОМ ФЛОПА, ТЕРНА, РИВЕРА
+        // ============================================================
         function setBoardFlop() {
-            clearBoardCards();
+            state.board = [null, null, null, state.board[3], state.board[4]];
             const usedCards = new Set();
             for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+            for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
 
             const available = [];
             for (let rank of RANKS) {
@@ -1090,51 +1212,89 @@
         }
 
         function setBoardTurn() {
-            setBoardFlop();
-            const usedCards = new Set();
-            for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
-            for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+            if (state.board[3] !== null) {
+                const usedCards = new Set();
+                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+                for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+                if (state.board[3]) usedCards.delete(state.board[3].rank + state.board[3].suit);
 
-            const available = [];
-            for (let rank of RANKS) {
-                for (let suit of SUITS) {
-                    const key = rank + suit;
-                    if (!usedCards.has(key)) available.push({ rank, suit });
+                const available = [];
+                for (let rank of RANKS) {
+                    for (let suit of SUITS) {
+                        const key = rank + suit;
+                        if (!usedCards.has(key)) available.push({ rank, suit });
+                    }
                 }
-            }
 
-            if (available.length > 0) {
-                const random = available[Math.floor(Math.random() * available.length)];
-                state.board[3] = random;
+                if (available.length > 0) {
+                    const random = available[Math.floor(Math.random() * available.length)];
+                    state.board[3] = random;
+                }
+            } else {
+                const usedCards = new Set();
+                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+                for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+
+                const available = [];
+                for (let rank of RANKS) {
+                    for (let suit of SUITS) {
+                        const key = rank + suit;
+                        if (!usedCards.has(key)) available.push({ rank, suit });
+                    }
+                }
+
+                if (available.length > 0) {
+                    const random = available[Math.floor(Math.random() * available.length)];
+                    state.board[3] = random;
+                }
             }
             renderAllCards();
             updateHandAnalysis();
         }
 
         function setBoardRiver() {
-            setBoardTurn();
-            const usedCards = new Set();
-            for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
-            for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+            if (state.board[4] !== null) {
+                const usedCards = new Set();
+                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+                for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+                if (state.board[4]) usedCards.delete(state.board[4].rank + state.board[4].suit);
 
-            const available = [];
-            for (let rank of RANKS) {
-                for (let suit of SUITS) {
-                    const key = rank + suit;
-                    if (!usedCards.has(key)) available.push({ rank, suit });
+                const available = [];
+                for (let rank of RANKS) {
+                    for (let suit of SUITS) {
+                        const key = rank + suit;
+                        if (!usedCards.has(key)) available.push({ rank, suit });
+                    }
                 }
-            }
 
-            if (available.length > 0) {
-                const random = available[Math.floor(Math.random() * available.length)];
-                state.board[4] = random;
+                if (available.length > 0) {
+                    const random = available[Math.floor(Math.random() * available.length)];
+                    state.board[4] = random;
+                }
+            } else {
+                const usedCards = new Set();
+                for (let c of state.hero) { if (c) usedCards.add(c.rank + c.suit); }
+                for (let c of state.board) { if (c) usedCards.add(c.rank + c.suit); }
+
+                const available = [];
+                for (let rank of RANKS) {
+                    for (let suit of SUITS) {
+                        const key = rank + suit;
+                        if (!usedCards.has(key)) available.push({ rank, suit });
+                    }
+                }
+
+                if (available.length > 0) {
+                    const random = available[Math.floor(Math.random() * available.length)];
+                    state.board[4] = random;
+                }
             }
             renderAllCards();
             updateHandAnalysis();
         }
 
         // ============================================================
-        //  8. АНАЛИЗ РУКИ (ОСНОВНАЯ ФУНКЦИЯ)
+        //  9. АНАЛИЗ РУКИ
         // ============================================================
         function updateHandAnalysis() {
             const heroCards = state.hero.filter(c => c !== null);
@@ -1145,61 +1305,148 @@
                 return;
             }
 
-            // 1. Определяем текущую комбинацию
             const allCards = [...heroCards, ...boardCards];
             const handResult = evaluateHandDetailed(allCards);
             document.getElementById('currentHand').textContent = handResult.handName || '—';
 
-            // 2. Определяем натс
-            const nuts = getNuts(boardCards);
-            document.getElementById('nutsHand').textContent = nuts || '—';
+            // Проверяем на дро
+            const drawInfo = checkDraws(heroCards, boardCards);
+            const drawText = drawInfo ? ` (${drawInfo})` : '';
+            if (drawText) {
+                const currentHandEl = document.getElementById('currentHand');
+                currentHandEl.textContent = handResult.handName + drawText;
+            }
 
-            // 3. Считаем ауты
-            const outs = calculateOuts(heroCards, boardCards);
-            document.getElementById('outsCount').textContent = outs.length > 0 ? outs.length : '0';
+            // Комбинации старше
+            const betterHands = getBetterHands(heroCards, boardCards);
+            document.getElementById('betterHands').textContent = betterHands || '—';
 
-            if (outs.length > 0) {
-                document.getElementById('outsContainer').style.display = 'block';
-                const list = document.getElementById('outsList');
-                list.innerHTML = '';
-                for (let card of outs) {
-                    const isRed = card.suit === '♥' || card.suit === '♦';
-                    const div = document.createElement('span');
-                    div.className = 'card-mini';
-                    div.innerHTML = `<span class="${isRed ? 'red' : 'black'}">${card.rank}${card.suit}</span>`;
-                    list.appendChild(div);
+            const boardCount = boardCards.filter(c => c !== null).length;
+            if (boardCount < 5) {
+                const outsData = calculateOuts(heroCards, boardCards);
+                const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
+                
+                const unknownCards = 52 - heroCards.length - boardCards.length;
+                const outsPercent = totalOuts > 0 ? ((totalOuts / unknownCards) * 100).toFixed(1) : 0;
+                
+                document.getElementById('outsCount').textContent = totalOuts > 0 ? `${totalOuts} (${outsPercent}%)` : '0';
+
+                if (totalOuts > 0) {
+                    document.getElementById('outsContainer').style.display = 'block';
+                    const container = document.getElementById('outsCategories');
+                    container.innerHTML = '';
+
+                    for (let cat of outsData) {
+                        if (cat.cards.length === 0) continue;
+
+                        const div = document.createElement('div');
+                        div.className = `outs-category quality-good`;
+
+                        const typeLabels = {
+                            'overpair': 'Старшая пара',
+                            'two_pair': 'Две пары',
+                            'three': 'Сет',
+                            'straight': 'Стрит',
+                            'flush': 'Флеш',
+                            'full_house': 'Фулл-хаус',
+                            'four': 'Каре'
+                        };
+
+                        const displayLabel = typeLabels[cat.type] || cat.type;
+                        div.innerHTML = `
+                            <span class="cat-label">${displayLabel} (${cat.cards.length})</span>
+                            <div class="cat-cards">
+                                ${cat.cards.map(c => {
+                                    return `<span class="card-mini">${c.rank}${c.suit}</span>`;
+                                }).join('')}
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    }
+                } else {
+                    document.getElementById('outsContainer').style.display = 'none';
                 }
+
+                // Обновляем оддсы
+                updateOdds();
+
+                let tipText = '';
+                if (totalOuts === 0) {
+                    tipText = '❌ <strong>Нет аутов.</strong> Ты не можешь улучшиться.';
+                } else {
+                    tipText = `✅ <strong>Найдено ${totalOuts} аутов (${outsPercent}%).</strong>`;
+                    if (drawInfo) {
+                        tipText += ` 🎯 ${drawInfo}`;
+                    }
+                }
+
+                document.getElementById('handAnalysisTip').innerHTML = `💡 ${tipText}`;
             } else {
+                document.getElementById('outsCount').textContent = '—';
                 document.getElementById('outsContainer').style.display = 'none';
+                document.getElementById('handAnalysisTip').innerHTML = '💡 <strong>Ривер.</strong> Ауты не считаются, так как новых карт не будет.';
+                document.getElementById('winOdds').textContent = '—';
+                document.getElementById('maxBet').textContent = '—';
             }
-
-            // 4. Подсказка по аутам
-            let tipText = '';
-            const outsCount = outs.length;
-            if (outsCount === 0) {
-                tipText = '❌ <strong>Нет аутов.</strong> Ты уже не можешь улучшиться.';
-            } else if (outsCount <= 4) {
-                tipText =
-                    `⚠️ <strong>Мало аутов (${outsCount}).</strong> Шансы на улучшение низкие. Нужны очень хорошие шансы банка для колла.`;
-            } else if (outsCount <= 8) {
-                tipText =
-                    `👍 <strong>Среднее количество аутов (${outsCount}).</strong> Хорошие шансы на улучшение. Можно коллировать с хорошими шансами банка.`;
-            } else if (outsCount <= 12) {
-                tipText =
-                    `🔥 <strong>Много аутов (${outsCount}).</strong> Отличные шансы на улучшение. Можно играть агрессивно!`;
-            } else {
-                tipText = `💪 <strong>Очень много аутов (${outsCount}).</strong> Ты фаворит на улучшение!`;
-            }
-
-            document.getElementById('handAnalysisTip').innerHTML = `💡 ${tipText}`;
         }
 
         // ============================================================
-        //  9. ОЦЕНКА РУКИ (ДЕТАЛЬНАЯ) — ИСПРАВЛЕНА
+        //  9.1 ПРОВЕРКА ДРО
+        // ============================================================
+        function checkDraws(heroCards, boardCards) {
+            if (heroCards.length < 2 || boardCards.length < 3) return null;
+            
+            const allCards = [...heroCards, ...boardCards];
+            const heroRanks = heroCards.map(c => RANK_VALUES[c.rank]);
+            const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]);
+            
+            // Проверка на флеш-дро (4+ одной масти)
+            const suitCount = {};
+            for (let c of allCards) {
+                suitCount[c.suit] = (suitCount[c.suit] || 0) + 1;
+            }
+            let flushDraw = false;
+            for (let [suit, count] of Object.entries(suitCount)) {
+                if (count >= 4) {
+                    flushDraw = true;
+                    break;
+                }
+            }
+            
+            // Проверка на стрит-дро (4+ подряд)
+            const allRanks = allCards.map(c => RANK_VALUES[c.rank]).sort((a, b) => a - b);
+            const uniqueRanks = [...new Set(allRanks)].sort((a, b) => a - b);
+            let straightDraw = false;
+            
+            // Проверяем 4 подряд
+            for (let i = 0; i <= uniqueRanks.length - 4; i++) {
+                if (uniqueRanks[i + 3] - uniqueRanks[i] === 3) {
+                    straightDraw = true;
+                    break;
+                }
+            }
+            // Проверяем A-2-3-4
+            if (uniqueRanks.includes(14) && uniqueRanks.includes(2) && uniqueRanks.includes(3) && uniqueRanks.includes(4)) {
+                straightDraw = true;
+            }
+            // Проверяем 2-3-4-5
+            if (uniqueRanks.includes(2) && uniqueRanks.includes(3) && uniqueRanks.includes(4) && uniqueRanks.includes(5)) {
+                straightDraw = true;
+            }
+            
+            if (flushDraw && straightDraw) return 'Флеш-дро + Стрит-дро';
+            if (flushDraw) return 'Флеш-дро';
+            if (straightDraw) return 'Стрит-дро';
+            
+            return null;
+        }
+
+        // ============================================================
+        //  10. ОЦЕНКА РУКИ (ДЕТАЛЬНАЯ)
         // ============================================================
         function evaluateHandDetailed(cards) {
             if (cards.length < 5) {
-                return { handName: 'Недостаточно карт' };
+                return { handName: 'Недостаточно карт', handStrength: 0 };
             }
 
             const rankCount = {};
@@ -1216,7 +1463,6 @@
             rankVals.sort((a, b) => b - a);
             const uniqueRanks = [...new Set(rankVals)].sort((a, b) => b - a);
 
-            // Проверка на флеш
             let flushSuit = null;
             let flushCards = [];
             for (let [suit, count] of Object.entries(suitCount)) {
@@ -1227,7 +1473,6 @@
                 }
             }
 
-            // Проверка на стрит
             let straightHigh = 0;
             for (let i = 0; i <= uniqueRanks.length - 5; i++) {
                 if (uniqueRanks[i] - uniqueRanks[i + 4] === 4) {
@@ -1243,7 +1488,6 @@
             let handName = 'Старшая карта';
             let handStrength = 0;
 
-            // Каре
             let fourRank = 0;
             for (let [rank, count] of Object.entries(rankCount)) {
                 if (count === 4) fourRank = parseInt(rank);
@@ -1257,7 +1501,6 @@
             }
             pairs.sort((a, b) => b - a);
 
-            // Стрит-флеш
             if (straightHigh > 0 && flushSuit) {
                 const flushRanks = flushCards;
                 let sfHigh = 0;
@@ -1273,7 +1516,7 @@
                 }
                 if (sfHigh > 0) {
                     const rankName = getRankName(sfHigh);
-                    handName = sfHigh === 14 ? 'Роял-флеш ♠♥♦♣' : `Стрит-флеш (${rankName})`;
+                    handName = sfHigh === 14 ? 'Роял-флеш' : `Стрит-флеш (${rankName})`;
                     handStrength = 9;
                 }
             }
@@ -1331,94 +1574,379 @@
         }
 
         // ============================================================
-        //  10. ОПРЕДЕЛЕНИЕ НАТСА
+        //  11. КОМБИНАЦИИ СТАРШЕ - ИСПРАВЛЕНАЯ ЛОГИКА
         // ============================================================
-        function getNuts(boardCards) {
-            if (boardCards.length < 3) return '—';
-
-            const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]).sort((a, b) => b - a);
-            const boardUnique = [...new Set(boardRanks)].sort((a, b) => b - a);
-
-            const boardSuits = {};
-            for (let c of boardCards) {
-                boardSuits[c.suit] = (boardSuits[c.suit] || 0) + 1;
-            }
-
-            let boardFlush = false;
-            for (let [suit, count] of Object.entries(boardSuits)) {
-                if (count >= 5) boardFlush = true;
-            }
-
-            let boardStraight = false;
-            for (let i = 0; i <= boardUnique.length - 5; i++) {
-                if (boardUnique[i] - boardUnique[i + 4] === 4) boardStraight = true;
-            }
-            if (boardUnique.includes(14) && boardUnique.includes(5) && boardUnique.includes(4) && boardUnique.includes(3) &&
-                boardUnique.includes(2)) {
-                boardStraight = true;
-            }
-
-            if (boardFlush && boardStraight) return 'Стрит-флеш';
-            if (boardFlush) return 'Флеш';
-            if (boardStraight) return 'Стрит';
-
+        function getBetterHands(heroCards, boardCards) {
+            if (heroCards.length < 2 || boardCards.length < 3) return '—';
+            
+            const allCards = [...heroCards, ...boardCards];
+            const ourHand = evaluateHandDetailed(allCards);
+            const ourStrength = ourHand.handStrength || 0;
+            
+            const heroRanks = heroCards.map(c => RANK_VALUES[c.rank]);
+            const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]);
+            
             const boardRankCount = {};
             for (let r of boardRanks) {
                 boardRankCount[r] = (boardRankCount[r] || 0) + 1;
             }
-
-            let maxCount = 0;
-            let maxRank = 0;
-            for (let [rank, count] of Object.entries(boardRankCount)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    maxRank = parseInt(rank);
+            
+            const boardSuits = {};
+            for (let c of boardCards) {
+                boardSuits[c.suit] = (boardSuits[c.suit] || 0) + 1;
+            }
+            
+            const result = [];
+            const added = new Set();
+            
+            // 1. Стрит-флеш
+            for (let [suit, count] of Object.entries(boardSuits)) {
+                if (count >= 3) {
+                    const suitCards = boardCards.filter(c => c.suit === suit);
+                    const suitRanks = suitCards.map(c => RANK_VALUES[c.rank]).sort((a, b) => a - b);
+                    for (let i = 0; i <= suitRanks.length - 3; i++) {
+                        if (suitRanks[i + 2] - suitRanks[i] === 2) {
+                            if (!added.has('Стрит-флеш')) {
+                                result.push('Стрит-флеш');
+                                added.add('Стрит-флеш');
+                            }
+                            break;
+                        }
+                    }
                 }
             }
-
-            if (maxCount >= 3) return `Сет (${getRankName(maxRank)})`;
-            if (maxCount === 2) return 'Пара';
-
-            return 'Старшая карта';
+            
+            // 2. Каре
+            for (let [rank, count] of Object.entries(boardRankCount)) {
+                const r = parseInt(rank);
+                if (count >= 2) {
+                    const heroHas = heroRanks.includes(r);
+                    if (!heroHas) {
+                        const key = `Каре (${getRankName(r)})`;
+                        if (!added.has(key)) {
+                            result.push(key);
+                            added.add(key);
+                        }
+                    }
+                }
+            }
+            
+            // 3. Фулл-хаус
+            for (let [rank, count] of Object.entries(boardRankCount)) {
+                const r = parseInt(rank);
+                if (count >= 2) {
+                    for (let [rank2, count2] of Object.entries(boardRankCount)) {
+                        const r2 = parseInt(rank2);
+                        if (r2 !== r && count2 >= 1) {
+                            const heroHas2 = heroRanks.includes(r2);
+                            if (!heroHas2) {
+                                const key = `Фулл-хаус (${getRankName(r)} на ${getRankName(r2)})`;
+                                if (!added.has(key)) {
+                                    result.push(key);
+                                    added.add(key);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (let [rank, count] of Object.entries(boardRankCount)) {
+                const r = parseInt(rank);
+                if (count === 3) {
+                    for (let [rank2, count2] of Object.entries(boardRankCount)) {
+                        const r2 = parseInt(rank2);
+                        if (r2 !== r && count2 >= 1) {
+                            const heroHas2 = heroRanks.includes(r2);
+                            if (!heroHas2) {
+                                const key = `Фулл-хаус (${getRankName(r)} на ${getRankName(r2)})`;
+                                if (!added.has(key)) {
+                                    result.push(key);
+                                    added.add(key);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 4. Флеш
+            for (let [suit, count] of Object.entries(boardSuits)) {
+                if (count >= 3) {
+                    const key = `Флеш (${suit})`;
+                    if (!added.has(key)) {
+                        result.push(key);
+                        added.add(key);
+                    }
+                }
+            }
+            
+            // 5. Стрит
+            const boardUnique = [...new Set(boardRanks)].sort((a, b) => a - b);
+            let hasStraightPossible = false;
+            for (let i = 0; i <= boardUnique.length - 3; i++) {
+                if (boardUnique[i + 2] - boardUnique[i] === 2) {
+                    hasStraightPossible = true;
+                    break;
+                }
+            }
+            if (boardUnique.includes(14) && boardUnique.includes(2) && boardUnique.includes(3) && boardUnique.includes(4) && boardUnique.includes(5)) {
+                hasStraightPossible = true;
+            }
+            if (hasStraightPossible && ourStrength < 5) {
+                if (!added.has('Стрит')) {
+                    result.push('Стрит');
+                    added.add('Стрит');
+                }
+            }
+            
+            // 6. Сет - для каждой карты на столе
+            for (let [rank, count] of Object.entries(boardRankCount)) {
+                const r = parseInt(rank);
+                if (count >= 1) {
+                    const heroHas = heroRanks.includes(r);
+                    if (!heroHas && ourStrength < 4) {
+                        if (!added.has('Сет')) {
+                            result.push('Сет');
+                            added.add('Сет');
+                        }
+                        break;
+                    }
+                }
+            }
+            
+            // 7. Две пары
+            if (ourStrength < 3) {
+                const pairs = [];
+                for (let i = 0; i < boardRanks.length; i++) {
+                    for (let j = i + 1; j < boardRanks.length; j++) {
+                        const r1 = boardRanks[i];
+                        const r2 = boardRanks[j];
+                        if (r1 !== r2) {
+                            const heroHas1 = heroRanks.includes(r1);
+                            const heroHas2 = heroRanks.includes(r2);
+                            if (!heroHas1 && !heroHas2) {
+                                pairs.push(`${getRankName(r1)} и ${getRankName(r2)}`);
+                            }
+                        }
+                    }
+                }
+                for (let [rank, count] of Object.entries(boardRankCount)) {
+                    const r = parseInt(rank);
+                    if (count >= 1) {
+                        const heroHas = heroRanks.includes(r);
+                        if (!heroHas) {
+                            pairs.push(getRankName(r));
+                        }
+                    }
+                }
+                
+                if (pairs.length > 3) {
+                    if (!added.has('Две пары')) {
+                        result.push('Две пары');
+                        added.add('Две пары');
+                    }
+                } else {
+                    for (let pair of pairs) {
+                        const key = `Две пары (${pair})`;
+                        if (!added.has(key)) {
+                            result.push(key);
+                            added.add(key);
+                        }
+                    }
+                }
+            }
+            
+            // 8. Старшая пара
+            if (ourStrength === 2) {
+                const maxBoardRank = Math.max(...boardRanks);
+                const ourPairRank = heroRanks[0];
+                if (maxBoardRank > ourPairRank) {
+                    const heroHasMax = heroRanks.includes(maxBoardRank);
+                    if (!heroHasMax) {
+                        const key = `Пара (${getRankName(maxBoardRank)})`;
+                        if (!added.has(key)) {
+                            result.push(key);
+                            added.add(key);
+                        }
+                    }
+                }
+            }
+            
+            // Фильтруем только те, что сильнее нашей руки
+            const strengthMap = {
+                'Стрит-флеш': 9,
+                'Каре': 8,
+                'Фулл-хаус': 7,
+                'Флеш': 6,
+                'Стрит': 5,
+                'Сет': 4,
+                'Две пары': 3,
+                'Пара': 2
+            };
+            
+            const filtered = result.filter(hand => {
+                for (let key of Object.keys(strengthMap)) {
+                    if (hand.includes(key) && strengthMap[key] > ourStrength) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+            
+            const order = ['Пара', 'Две пары', 'Сет', 'Стрит', 'Флеш', 'Фулл-хаус', 'Каре', 'Стрит-флеш'];
+            filtered.sort((a, b) => {
+                let aIdx = order.findIndex(o => a.includes(o));
+                let bIdx = order.findIndex(o => b.includes(o));
+                return aIdx - bIdx;
+            });
+            
+            return filtered.length > 0 ? filtered.join(', ') : 'Нет';
         }
 
         // ============================================================
-        //  11. РАСЧЁТ АУТОВ
+        //  12. РАСЧЁТ АУТОВ
         // ============================================================
         function calculateOuts(heroCards, boardCards) {
             if (heroCards.length < 2 || boardCards.length < 3) return [];
 
-            const allCards = [...heroCards, ...boardCards];
-            const current = evaluateHandDetailed(allCards);
-            const currentStrength = current.handStrength || 0;
-
-            if (currentStrength >= 8) return [];
-
             const usedCards = new Set();
-            for (let c of allCards) usedCards.add(c.rank + c.suit);
+            for (let c of [...heroCards, ...boardCards]) usedCards.add(c.rank + c.suit);
 
-            const outs = [];
+            const heroRanks = heroCards.map(c => RANK_VALUES[c.rank]);
+            const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]);
+            
+            const villainPairRank = Math.max(...boardRanks);
+
+            const result = [];
 
             for (let rank of RANKS) {
                 for (let suit of SUITS) {
                     const key = rank + suit;
                     if (usedCards.has(key)) continue;
 
-                    const testCards = [...allCards, { rank, suit }];
+                    const cardVal = RANK_VALUES[rank];
+                    
+                    const testCards = [...heroCards, ...boardCards, { rank, suit }];
                     const test = evaluateHandDetailed(testCards);
                     const testStrength = test.handStrength || 0;
+                    
+                    const currentCards = [...heroCards, ...boardCards];
+                    const current = evaluateHandDetailed(currentCards);
+                    const currentStrength = current.handStrength || 0;
+                    
+                    if (testStrength <= currentStrength) continue;
 
-                    if (testStrength > currentStrength) {
-                        outs.push({ rank, suit });
+                    let catType = null;
+                    let isGood = false;
+
+                    if (testStrength >= 8) {
+                        catType = 'four';
+                        isGood = true;
+                    } else if (testStrength === 7) {
+                        catType = 'full_house';
+                        isGood = true;
+                    } else if (testStrength === 6) {
+                        catType = 'flush';
+                        isGood = true;
+                    } else if (testStrength === 5) {
+                        catType = 'straight';
+                        isGood = true;
+                    } else if (testStrength === 4) {
+                        catType = 'three';
+                        if (heroRanks.includes(cardVal)) {
+                            isGood = true;
+                        }
+                    } else if (testStrength === 3) {
+                        catType = 'two_pair';
+                        const testRanks = testCards.map(c => RANK_VALUES[c.rank]);
+                        const testRankCount = {};
+                        for (let r of testRanks) {
+                            testRankCount[r] = (testRankCount[r] || 0) + 1;
+                        }
+                        let pairRanks = [];
+                        for (let [r, count] of Object.entries(testRankCount)) {
+                            if (count === 2) pairRanks.push(parseInt(r));
+                        }
+                        pairRanks.sort((a, b) => b - a);
+                        
+                        let usesHeroCards = 0;
+                        for (let r of pairRanks) {
+                            if (heroRanks.includes(r)) usesHeroCards++;
+                        }
+                        
+                        if (usesHeroCards >= 2) {
+                            isGood = true;
+                        }
+                    } else if (testStrength === 2) {
+                        catType = 'overpair';
+                        if (cardVal > villainPairRank && heroRanks.includes(cardVal)) {
+                            isGood = true;
+                        }
+                    }
+
+                    if (isGood && catType) {
+                        result.push({
+                            type: catType,
+                            cards: [{ rank, suit }]
+                        });
                     }
                 }
             }
 
-            return outs;
+            const merged = {};
+            for (let item of result) {
+                const key = item.type;
+                if (merged[key]) {
+                    merged[key].cards.push(...item.cards);
+                } else {
+                    merged[key] = { type: item.type, cards: [...item.cards] };
+                }
+            }
+
+            return Object.values(merged);
         }
 
         // ============================================================
-        //  12. РАСЧЁТ ЭКВИТИ
+        //  13. ОБНОВЛЕНИЕ ОДДСОВ
+        // ============================================================
+        function updateOdds() {
+            const heroCards = state.hero.filter(c => c !== null);
+            const boardCards = state.board.filter(c => c !== null);
+            
+            if (heroCards.length < 2 || boardCards.length < 3) {
+                return;
+            }
+            
+            // Получаем проценты аутов
+            const outsData = calculateOuts(heroCards, boardCards);
+            const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
+            const unknownCards = 52 - heroCards.length - boardCards.length;
+            const winChance = totalOuts > 0 ? (totalOuts / unknownCards * 100) : 0;
+            
+            document.getElementById('winOdds').textContent = winChance > 0 ? winChance.toFixed(1) + '%' : '—';
+            
+            // Максимальная ставка для колла
+            // winChance = ставка / (банк + ставка) * 100
+            // ставка = (winChance * банк) / (100 - winChance)
+            const maxBetPercent = winChance > 0 ? (winChance * 100) / (100 - winChance) : 0;
+            
+            const maxBetEl = document.getElementById('maxBet');
+            const oddsTip = document.getElementById('oddsTip');
+            
+            if (winChance === 0) {
+                maxBetEl.textContent = '0%';
+                maxBetEl.className = 'value bad';
+                oddsTip.innerHTML = '❌ <strong>Нет шансов на победу.</strong> Лучше сбросить карты.';
+                return;
+            }
+            
+            maxBetEl.textContent = maxBetPercent.toFixed(0) + '%';
+            maxBetEl.className = 'value good';
+            oddsTip.innerHTML = `✅ <strong>Можно коллировать ставку до ${maxBetPercent.toFixed(0)}% от банка.</strong><br>Твои шансы на победу: ${winChance.toFixed(1)}%.`;
+        }
+
+        // ============================================================
+        //  14. РАСЧЁТ ЭКВИТИ
         // ============================================================
         function calculateEquity() {
             const heroCards = state.hero.filter(c => c !== null);
@@ -1479,11 +2007,14 @@
                 else ties++;
             }
 
-            document.getElementById('winEquity').textContent = (wins / NUM_SIMULATIONS * 100).toFixed(1);
+            const winPct = (wins / NUM_SIMULATIONS * 100);
+            document.getElementById('winEquity').textContent = winPct.toFixed(1);
             document.getElementById('tieEquity').textContent = (ties / NUM_SIMULATIONS * 100).toFixed(1);
             document.getElementById('loseEquity').textContent = (losses / NUM_SIMULATIONS * 100).toFixed(1);
+            
+            state.equity = winPct;
 
-            const winEquity = (wins / NUM_SIMULATIONS * 100);
+            const winEquity = winPct;
             let tip = '';
             if (winEquity > 60) tip = '🔥 <strong>Отличная позиция!</strong> Ты фаворит с ' + winEquity.toFixed(1) +
                 '%. Играй агрессивно!';
@@ -1496,10 +2027,13 @@
             else tip = '❌ <strong>Плохая ситуация.</strong> Всего ' + winEquity.toFixed(1) + '% — лучше пасовать.';
 
             document.getElementById('equityTip').innerHTML = '💡 ' + tip;
+            
+            // Обновляем оддсы после расчёта эквити
+            updateOdds();
         }
 
         // ============================================================
-        //  13. ОЦЕНКА РУКИ (УПРОЩЁННАЯ ДЛЯ ЭКВИТИ)
+        //  15. ОЦЕНКА РУКИ (УПРОЩЁННАЯ ДЛЯ ЭКВИТИ)
         // ============================================================
         function evaluateHandSimple(holeCards, boardCards) {
             const allCards = [...holeCards, ...boardCards];
@@ -1555,13 +2089,15 @@
         }
 
         // ============================================================
-        //  14. ИНИЦИАЛИЗАЦИЯ
+        //  16. ИНИЦИАЛИЗАЦИЯ
         // ============================================================
         renderAllCards();
         updateResult();
 
         console.log('♠️ Покерный помощник загружен!');
-        console.log('Выбери карты → получи силу руки → добавь стол → увидишь ауты, натс, комбинации и шансы.');
+        console.log('✅ Исправлены комбинации старше');
+        console.log('✅ Добавлены: Стрит-дро, Флеш-дро');
+        console.log('✅ Оддсы: максимальный процент для колла');
     </script>
 
 </body>
