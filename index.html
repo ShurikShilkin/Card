@@ -525,6 +525,7 @@
         .odds-item .value .good { color: #16a34a; }
         .odds-item .value .bad { color: #dc2626; }
         .odds-item .value .medium { color: #f59e0b; }
+        .odds-item .value .great { color: #8b5cf6; }
 
         @media (max-width: 480px) {
             .card-slot {
@@ -1309,7 +1310,6 @@
             const handResult = evaluateHandDetailed(allCards);
             document.getElementById('currentHand').textContent = handResult.handName || '—';
 
-            // Проверяем на дро
             const drawInfo = checkDraws(heroCards, boardCards);
             const drawText = drawInfo ? ` (${drawInfo})` : '';
             if (drawText) {
@@ -1317,7 +1317,6 @@
                 currentHandEl.textContent = handResult.handName + drawText;
             }
 
-            // Комбинации старше
             const betterHands = getBetterHands(heroCards, boardCards);
             document.getElementById('betterHands').textContent = betterHands || '—';
 
@@ -1349,7 +1348,9 @@
                             'straight': 'Стрит',
                             'flush': 'Флеш',
                             'full_house': 'Фулл-хаус',
-                            'four': 'Каре'
+                            'four': 'Каре',
+                            'straight_flush': 'Стрит-флеш',
+                            'royal_flush': 'Роял-флеш'
                         };
 
                         const displayLabel = typeLabels[cat.type] || cat.type;
@@ -1367,12 +1368,11 @@
                     document.getElementById('outsContainer').style.display = 'none';
                 }
 
-                // Обновляем оддсы
                 updateOdds();
 
                 let tipText = '';
                 if (totalOuts === 0) {
-                    tipText = '❌ <strong>Нет аутов.</strong> Ты не можешь улучшиться.';
+                    tipText = '✅ <strong>У тебя готовая рука!</strong> Нажми "Рассчитать шансы", чтобы узнать свою силу.';
                 } else {
                     tipText = `✅ <strong>Найдено ${totalOuts} аутов (${outsPercent}%).</strong>`;
                     if (drawInfo) {
@@ -1397,10 +1397,7 @@
             if (heroCards.length < 2 || boardCards.length < 3) return null;
             
             const allCards = [...heroCards, ...boardCards];
-            const heroRanks = heroCards.map(c => RANK_VALUES[c.rank]);
-            const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]);
             
-            // Проверка на флеш-дро (4+ одной масти)
             const suitCount = {};
             for (let c of allCards) {
                 suitCount[c.suit] = (suitCount[c.suit] || 0) + 1;
@@ -1413,23 +1410,19 @@
                 }
             }
             
-            // Проверка на стрит-дро (4+ подряд)
             const allRanks = allCards.map(c => RANK_VALUES[c.rank]).sort((a, b) => a - b);
             const uniqueRanks = [...new Set(allRanks)].sort((a, b) => a - b);
             let straightDraw = false;
             
-            // Проверяем 4 подряд
             for (let i = 0; i <= uniqueRanks.length - 4; i++) {
                 if (uniqueRanks[i + 3] - uniqueRanks[i] === 3) {
                     straightDraw = true;
                     break;
                 }
             }
-            // Проверяем A-2-3-4
             if (uniqueRanks.includes(14) && uniqueRanks.includes(2) && uniqueRanks.includes(3) && uniqueRanks.includes(4)) {
                 straightDraw = true;
             }
-            // Проверяем 2-3-4-5
             if (uniqueRanks.includes(2) && uniqueRanks.includes(3) && uniqueRanks.includes(4) && uniqueRanks.includes(5)) {
                 straightDraw = true;
             }
@@ -1516,7 +1509,11 @@
                 }
                 if (sfHigh > 0) {
                     const rankName = getRankName(sfHigh);
-                    handName = sfHigh === 14 ? 'Роял-флеш' : `Стрит-флеш (${rankName})`;
+                    if (sfHigh === 14 && flushRanks.includes(13) && flushRanks.includes(12) && flushRanks.includes(11) && flushRanks.includes(10)) {
+                        handName = 'Роял-флеш';
+                    } else {
+                        handName = `Стрит-флеш (${rankName})`;
+                    }
                     handStrength = 9;
                 }
             }
@@ -1594,6 +1591,25 @@
             const boardSuits = {};
             for (let c of boardCards) {
                 boardSuits[c.suit] = (boardSuits[c.suit] || 0) + 1;
+            }
+            
+            // Определяем старшую пару на столе
+            const maxBoardRank = Math.max(...boardRanks);
+            
+            // Определяем нашу пару (если есть)
+            let ourPairRank = 0;
+            let hasOurPair = false;
+            const allRankCount = {};
+            for (let r of [...heroRanks, ...boardRanks]) {
+                allRankCount[r] = (allRankCount[r] || 0) + 1;
+            }
+            for (let [rank, count] of Object.entries(allRankCount)) {
+                const r = parseInt(rank);
+                if (count >= 2 && heroRanks.includes(r)) {
+                    ourPairRank = r;
+                    hasOurPair = true;
+                    break;
+                }
             }
             
             const result = [];
@@ -1699,7 +1715,7 @@
                 }
             }
             
-            // 6. Сет - для каждой карты на столе
+            // 6. Сет
             for (let [rank, count] of Object.entries(boardRankCount)) {
                 const r = parseInt(rank);
                 if (count >= 1) {
@@ -1756,23 +1772,28 @@
                 }
             }
             
-            // 8. Старшая пара
-            if (ourStrength === 2) {
-                const maxBoardRank = Math.max(...boardRanks);
-                const ourPairRank = heroRanks[0];
-                if (maxBoardRank > ourPairRank) {
-                    const heroHasMax = heroRanks.includes(maxBoardRank);
-                    if (!heroHasMax) {
-                        const key = `Пара (${getRankName(maxBoardRank)})`;
-                        if (!added.has(key)) {
-                            result.push(key);
-                            added.add(key);
-                        }
-                    }
+            // 8. СТАРШАЯ ПАРА НА СТОЛЕ — ВСЕГДА показываем, если она бьёт нашу руку
+            let showVillainPair = false;
+            
+            // Если у нас есть пара и она младше старшей на столе
+            if (hasOurPair && maxBoardRank > ourPairRank) {
+                showVillainPair = true;
+            }
+            // Если у нас нет пары и наша рука не лучше пары (старшая карта или хуже)
+            else if (!hasOurPair && ourStrength <= 1) {
+                showVillainPair = true;
+            }
+            
+            if (showVillainPair) {
+                const key = `Пара (${getRankName(maxBoardRank)})`;
+                if (!added.has(key)) {
+                    result.push(key);
+                    added.add(key);
                 }
             }
             
-            // Фильтруем только те, что сильнее нашей руки
+            // Фильтруем только те комбинации, которые СТРОГО СИЛЬНЕЕ нашей руки
+            // ИЛИ это пара, которая старше нашей пары
             const strengthMap = {
                 'Стрит-флеш': 9,
                 'Каре': 8,
@@ -1785,6 +1806,20 @@
             };
             
             const filtered = result.filter(hand => {
+                // Если это пара — проверяем, старше ли она нашей пары
+                if (hand.includes('Пара') && hasOurPair) {
+                    // Пара на столе, которая старше нашей
+                    const match = hand.match(/Пара \((\w+)\)/);
+                    if (match) {
+                        const rankName = match[1];
+                        const rankValue = getRankValue(rankName);
+                        if (rankValue > ourPairRank) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                // Для всех остальных комбинаций — проверяем силу
                 for (let key of Object.keys(strengthMap)) {
                     if (hand.includes(key) && strengthMap[key] > ourStrength) {
                         return true;
@@ -1816,6 +1851,26 @@
             const boardRanks = boardCards.map(c => RANK_VALUES[c.rank]);
             
             const villainPairRank = Math.max(...boardRanks);
+            
+            const currentCards = [...heroCards, ...boardCards];
+            const current = evaluateHandDetailed(currentCards);
+            const currentStrength = current.handStrength || 0;
+
+            const rankCount = {};
+            for (let r of [...heroRanks, ...boardRanks]) {
+                rankCount[r] = (rankCount[r] || 0) + 1;
+            }
+            let ourPairRank = 0;
+            let hasPair = false;
+            for (let [rank, count] of Object.entries(rankCount)) {
+                if (count >= 2 && heroRanks.includes(parseInt(rank))) {
+                    ourPairRank = parseInt(rank);
+                    hasPair = true;
+                    break;
+                }
+            }
+
+            const isFavorite = hasPair && ourPairRank === villainPairRank;
 
             const result = [];
 
@@ -1829,10 +1884,6 @@
                     const testCards = [...heroCards, ...boardCards, { rank, suit }];
                     const test = evaluateHandDetailed(testCards);
                     const testStrength = test.handStrength || 0;
-                    
-                    const currentCards = [...heroCards, ...boardCards];
-                    const current = evaluateHandDetailed(currentCards);
-                    const currentStrength = current.handStrength || 0;
                     
                     if (testStrength <= currentStrength) continue;
 
@@ -1874,7 +1925,14 @@
                             if (heroRanks.includes(r)) usesHeroCards++;
                         }
                         
-                        if (usesHeroCards >= 2) {
+                        let beatsVillain = false;
+                        if (pairRanks.length >= 2 && pairRanks[0] > villainPairRank) {
+                            beatsVillain = true;
+                        } else if (pairRanks.length >= 2 && pairRanks[0] === villainPairRank && pairRanks[1] > 0) {
+                            beatsVillain = true;
+                        }
+                        
+                        if (usesHeroCards >= 2 && beatsVillain) {
                             isGood = true;
                         }
                     } else if (testStrength === 2) {
@@ -1882,6 +1940,16 @@
                         if (cardVal > villainPairRank && heroRanks.includes(cardVal)) {
                             isGood = true;
                         }
+                    }
+
+                    const testHandName = test.handName || '';
+                    if (testHandName.includes('Стрит-флеш') || testHandName.includes('Роял-флеш')) {
+                        catType = 'straight_flush';
+                        isGood = true;
+                    }
+
+                    if (isFavorite) {
+                        isGood = false;
                     }
 
                     if (isGood && catType) {
@@ -1917,18 +1985,28 @@
                 return;
             }
             
-            // Получаем проценты аутов
             const outsData = calculateOuts(heroCards, boardCards);
             const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
             const unknownCards = 52 - heroCards.length - boardCards.length;
-            const winChance = totalOuts > 0 ? (totalOuts / unknownCards * 100) : 0;
+            const outsWinChance = totalOuts > 0 ? (totalOuts / unknownCards * 100) : 0;
+            
+            const equityWinChance = state.equity || 0;
+            
+            let winChance = 0;
+            let isFavorite = false;
+            
+            if (equityWinChance >= 50) {
+                winChance = equityWinChance;
+                isFavorite = true;
+            } else if (outsWinChance > 0) {
+                winChance = outsWinChance;
+                isFavorite = false;
+            } else if (equityWinChance > 0) {
+                winChance = equityWinChance;
+                isFavorite = equityWinChance >= 50;
+            }
             
             document.getElementById('winOdds').textContent = winChance > 0 ? winChance.toFixed(1) + '%' : '—';
-            
-            // Максимальная ставка для колла
-            // winChance = ставка / (банк + ставка) * 100
-            // ставка = (winChance * банк) / (100 - winChance)
-            const maxBetPercent = winChance > 0 ? (winChance * 100) / (100 - winChance) : 0;
             
             const maxBetEl = document.getElementById('maxBet');
             const oddsTip = document.getElementById('oddsTip');
@@ -1940,9 +2018,77 @@
                 return;
             }
             
-            maxBetEl.textContent = maxBetPercent.toFixed(0) + '%';
-            maxBetEl.className = 'value good';
-            oddsTip.innerHTML = `✅ <strong>Можно коллировать ставку до ${maxBetPercent.toFixed(0)}% от банка.</strong><br>Твои шансы на победу: ${winChance.toFixed(1)}%.`;
+            if (isFavorite) {
+                maxBetEl.textContent = '🔥 Рейз!';
+                maxBetEl.className = 'value great';
+                
+                let sizing = '';
+                if (winChance >= 75) {
+                    sizing = '🏆 <strong>Очень сильная рука!</strong> Рекомендуется рейз <strong>3/4 - банк</strong> для вэлью.';
+                } else if (winChance >= 60) {
+                    sizing = '✅ <strong>Ты явный фаворит!</strong> Рекомендуется рейз <strong>2/3 - 3/4 банка</strong>.';
+                } else {
+                    sizing = '✅ <strong>Ты впереди!</strong> Рекомендуется рейз <strong>1/2 - 2/3 банка</strong> для защиты.';
+                }
+                
+                oddsTip.innerHTML = `
+                    🔥 <strong>Ты фаворит! (${winChance.toFixed(1)}%)</strong><br>
+                    ${sizing}<br>
+                    <span style="font-size:11px; color:#5b4a7a;">
+                        📊 Не просто коллируй — рейз для вэлью!
+                    </span>
+                `;
+                return;
+            }
+            
+            const maxBetPercent = winChance / (1 - 2 * winChance / 100);
+            const maxBetRounded = Math.round(maxBetPercent);
+            
+            let betText = '';
+            let betClass = '';
+            
+            if (maxBetRounded >= 200) {
+                betText = maxBetRounded + '% (2 банка+)';
+                betClass = 'good';
+            } else if (maxBetRounded >= 150) {
+                betText = maxBetRounded + '% (1.5 банка)';
+                betClass = 'good';
+            } else if (maxBetRounded >= 100) {
+                betText = maxBetRounded + '% (банк)';
+                betClass = 'good';
+            } else if (maxBetRounded >= 75) {
+                betText = maxBetRounded + '% (3/4 банка)';
+                betClass = 'good';
+            } else if (maxBetRounded >= 66) {
+                betText = maxBetRounded + '% (2/3 банка)';
+                betClass = 'medium';
+            } else if (maxBetRounded >= 50) {
+                betText = maxBetRounded + '% (1/2 банка)';
+                betClass = 'medium';
+            } else if (maxBetRounded >= 33) {
+                betText = maxBetRounded + '% (1/3 банка)';
+                betClass = 'bad';
+            } else if (maxBetRounded >= 25) {
+                betText = maxBetRounded + '% (1/4 банка)';
+                betClass = 'bad';
+            } else {
+                betText = maxBetRounded + '% (< 1/4 банка)';
+                betClass = 'bad';
+            }
+            
+            maxBetEl.textContent = betText;
+            maxBetEl.className = `value ${betClass}`;
+            
+            const examplePot = 100;
+            const exampleMaxBet = Math.round(maxBetPercent * examplePot / 100);
+            
+            oddsTip.innerHTML = `
+                ⚠️ <strong>Можно коллировать до ${maxBetRounded}% от банка.</strong><br>
+                Твои шансы на победу: ${winChance.toFixed(1)}%.<br>
+                <span style="font-size:11px; color:#5b4a7a;">
+                    📊 Пример: если в банке ${examplePot} фишек, можно коллировать до <strong>~${exampleMaxBet} фишек</strong>.
+                </span>
+            `;
         }
 
         // ============================================================
@@ -2028,7 +2174,6 @@
 
             document.getElementById('equityTip').innerHTML = '💡 ' + tip;
             
-            // Обновляем оддсы после расчёта эквити
             updateOdds();
         }
 
@@ -2095,9 +2240,9 @@
         updateResult();
 
         console.log('♠️ Покерный помощник загружен!');
-        console.log('✅ Исправлены комбинации старше');
-        console.log('✅ Добавлены: Стрит-дро, Флеш-дро');
-        console.log('✅ Оддсы: максимальный процент для колла');
+        console.log('✅ Исправлена логика комбинаций старше');
+        console.log('✅ Теперь всегда показывает старшую пару на столе, если она бьёт нашу руку');
+        console.log('✅ Пример: KT на флопе T8Q → комбинации старше: Пара (Q)');
     </script>
 
 </body>
