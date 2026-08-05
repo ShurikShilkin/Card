@@ -1322,13 +1322,25 @@
 
             const boardCount = boardCards.filter(c => c !== null).length;
             if (boardCount < 5) {
-                const outsData = calculateOuts(heroCards, boardCards);
-                const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
+                const ourStrength = handResult.handStrength || 0;
                 
-                const unknownCards = 52 - heroCards.length - boardCards.length;
-                const outsPercent = totalOuts > 0 ? ((totalOuts / unknownCards) * 100).toFixed(1) : 0;
+                let outsData = [];
+                let totalOuts = 0;
+                let outsPercent = 0;
                 
-                document.getElementById('outsCount').textContent = totalOuts > 0 ? `${totalOuts} (${outsPercent}%)` : '0';
+                if (ourStrength >= 4) {
+                    outsData = [];
+                    totalOuts = 0;
+                    outsPercent = 0;
+                    document.getElementById('outsContainer').style.display = 'none';
+                } else {
+                    outsData = calculateOuts(heroCards, boardCards);
+                    totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
+                    const unknownCards = 52 - heroCards.length - boardCards.length;
+                    outsPercent = totalOuts > 0 ? ((totalOuts / unknownCards) * 100) : 0;
+                }
+                
+                document.getElementById('outsCount').textContent = totalOuts > 0 ? `${totalOuts} (${outsPercent.toFixed(1)}%)` : '0';
 
                 if (totalOuts > 0) {
                     document.getElementById('outsContainer').style.display = 'block';
@@ -1371,10 +1383,12 @@
                 updateOdds();
 
                 let tipText = '';
-                if (totalOuts === 0) {
-                    tipText = '✅ <strong>У тебя готовая рука!</strong> Нажми "Рассчитать шансы", чтобы узнать свою силу.';
+                if (ourStrength >= 4) {
+                    tipText = `🔥 <strong>У тебя сильная готовая рука!</strong> (${handResult.handName}) Нажми "Рассчитать шансы", чтобы узнать точные шансы на победу.`;
+                } else if (totalOuts === 0) {
+                    tipText = '❌ <strong>Нет аутов.</strong> Ты не можешь улучшиться.';
                 } else {
-                    tipText = `✅ <strong>Найдено ${totalOuts} аутов (${outsPercent}%).</strong>`;
+                    tipText = `✅ <strong>Найдено ${totalOuts} аутов (${outsPercent.toFixed(1)}%).</strong>`;
                     if (drawInfo) {
                         tipText += ` 🎯 ${drawInfo}`;
                     }
@@ -1571,7 +1585,7 @@
         }
 
         // ============================================================
-        //  11. КОМБИНАЦИИ СТАРШЕ - ИСПРАВЛЕНАЯ ЛОГИКА
+        //  11. КОМБИНАЦИИ СТАРШЕ
         // ============================================================
         function getBetterHands(heroCards, boardCards) {
             if (heroCards.length < 2 || boardCards.length < 3) return '—';
@@ -1593,10 +1607,8 @@
                 boardSuits[c.suit] = (boardSuits[c.suit] || 0) + 1;
             }
             
-            // Определяем старшую пару на столе
             const maxBoardRank = Math.max(...boardRanks);
             
-            // Определяем нашу пару (если есть)
             let ourPairRank = 0;
             let hasOurPair = false;
             const allRankCount = {};
@@ -1772,15 +1784,11 @@
                 }
             }
             
-            // 8. СТАРШАЯ ПАРА НА СТОЛЕ — ВСЕГДА показываем, если она бьёт нашу руку
+            // 8. Старшая пара на столе
             let showVillainPair = false;
-            
-            // Если у нас есть пара и она младше старшей на столе
-            if (hasOurPair && maxBoardRank > ourPairRank) {
+            if (hasOurPair && maxBoardRank > ourPairRank && ourStrength < 7) {
                 showVillainPair = true;
-            }
-            // Если у нас нет пары и наша рука не лучше пары (старшая карта или хуже)
-            else if (!hasOurPair && ourStrength <= 1) {
+            } else if (!hasOurPair && ourStrength <= 1) {
                 showVillainPair = true;
             }
             
@@ -1792,8 +1800,6 @@
                 }
             }
             
-            // Фильтруем только те комбинации, которые СТРОГО СИЛЬНЕЕ нашей руки
-            // ИЛИ это пара, которая старше нашей пары
             const strengthMap = {
                 'Стрит-флеш': 9,
                 'Каре': 8,
@@ -1806,20 +1812,17 @@
             };
             
             const filtered = result.filter(hand => {
-                // Если это пара — проверяем, старше ли она нашей пары
                 if (hand.includes('Пара') && hasOurPair) {
-                    // Пара на столе, которая старше нашей
                     const match = hand.match(/Пара \((\w+)\)/);
                     if (match) {
                         const rankName = match[1];
                         const rankValue = getRankValue(rankName);
-                        if (rankValue > ourPairRank) {
+                        if (rankValue > ourPairRank && ourStrength < 7) {
                             return true;
                         }
                     }
                     return false;
                 }
-                // Для всех остальных комбинаций — проверяем силу
                 for (let key of Object.keys(strengthMap)) {
                     if (hand.includes(key) && strengthMap[key] > ourStrength) {
                         return true;
@@ -1868,6 +1871,10 @@
                     hasPair = true;
                     break;
                 }
+            }
+
+            if (currentStrength >= 4) {
+                return [];
             }
 
             const isFavorite = hasPair && ourPairRank === villainPairRank;
@@ -1975,7 +1982,7 @@
         }
 
         // ============================================================
-        //  13. ОБНОВЛЕНИЕ ОДДСОВ
+        //  13. ОБНОВЛЕНИЕ ОДДСОВ - С ПОНЯТНЫМИ ПОДСКАЗКАМИ
         // ============================================================
         function updateOdds() {
             const heroCards = state.hero.filter(c => c !== null);
@@ -1985,25 +1992,40 @@
                 return;
             }
             
-            const outsData = calculateOuts(heroCards, boardCards);
-            const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
-            const unknownCards = 52 - heroCards.length - boardCards.length;
-            const outsWinChance = totalOuts > 0 ? (totalOuts / unknownCards * 100) : 0;
-            
-            const equityWinChance = state.equity || 0;
+            const currentCards = [...heroCards, ...boardCards];
+            const current = evaluateHandDetailed(currentCards);
+            const currentStrength = current.handStrength || 0;
             
             let winChance = 0;
             let isFavorite = false;
             
-            if (equityWinChance >= 50) {
-                winChance = equityWinChance;
+            // Для сильных рук используем эквити
+            if (currentStrength >= 7) {
+                const equityWinChance = state.equity || 0;
+                winChance = equityWinChance > 0 ? equityWinChance : 95;
                 isFavorite = true;
-            } else if (outsWinChance > 0) {
-                winChance = outsWinChance;
-                isFavorite = false;
-            } else if (equityWinChance > 0) {
-                winChance = equityWinChance;
-                isFavorite = equityWinChance >= 50;
+            } else if (currentStrength >= 4) {
+                const equityWinChance = state.equity || 0;
+                winChance = equityWinChance > 0 ? equityWinChance : 75;
+                isFavorite = true;
+            } else {
+                const outsData = calculateOuts(heroCards, boardCards);
+                const totalOuts = outsData.reduce((sum, cat) => sum + cat.cards.length, 0);
+                const unknownCards = 52 - heroCards.length - boardCards.length;
+                const outsWinChance = totalOuts > 0 ? (totalOuts / unknownCards * 100) : 0;
+                
+                const equityWinChance = state.equity || 0;
+                
+                if (equityWinChance >= 50) {
+                    winChance = equityWinChance;
+                    isFavorite = true;
+                } else if (outsWinChance > 0) {
+                    winChance = outsWinChance;
+                    isFavorite = false;
+                } else if (equityWinChance > 0) {
+                    winChance = equityWinChance;
+                    isFavorite = equityWinChance >= 50;
+                }
             }
             
             document.getElementById('winOdds').textContent = winChance > 0 ? winChance.toFixed(1) + '%' : '—';
@@ -2014,7 +2036,7 @@
             if (winChance === 0) {
                 maxBetEl.textContent = '0%';
                 maxBetEl.className = 'value bad';
-                oddsTip.innerHTML = '❌ <strong>Нет шансов на победу.</strong> Лучше сбросить карты.';
+                oddsTip.innerHTML = '❌ <strong>Шансов нет.</strong> Лучше сбросить карты.';
                 return;
             }
             
@@ -2023,57 +2045,61 @@
                 maxBetEl.className = 'value great';
                 
                 let sizing = '';
+                let advice = '';
+                
                 if (winChance >= 75) {
-                    sizing = '🏆 <strong>Очень сильная рука!</strong> Рекомендуется рейз <strong>3/4 - банк</strong> для вэлью.';
+                    sizing = '🏆 <strong>Очень сильная рука!</strong>';
+                    advice = 'Ставь <strong>3/4 - банк</strong>, чтобы выжать максимум.';
                 } else if (winChance >= 60) {
-                    sizing = '✅ <strong>Ты явный фаворит!</strong> Рекомендуется рейз <strong>2/3 - 3/4 банка</strong>.';
+                    sizing = '✅ <strong>Ты явный фаворит!</strong>';
+                    advice = 'Ставь <strong>2/3 - 3/4 банка</strong>, чтобы защитить руку.';
                 } else {
-                    sizing = '✅ <strong>Ты впереди!</strong> Рекомендуется рейз <strong>1/2 - 2/3 банка</strong> для защиты.';
+                    sizing = '✅ <strong>Ты впереди!</strong>';
+                    advice = 'Ставь <strong>1/2 - 2/3 банка</strong>, чтобы не дать оппоненту дёшево посмотреть карты.';
                 }
                 
+                const handName = current.handName || '';
                 oddsTip.innerHTML = `
-                    🔥 <strong>Ты фаворит! (${winChance.toFixed(1)}%)</strong><br>
+                    🔥 <strong>Ты выигрываешь в ${winChance.toFixed(1)}% случаев!</strong><br>
+                    ${handName ? `📌 Твоя рука: ${handName}` : ''}<br>
                     ${sizing}<br>
-                    <span style="font-size:11px; color:#5b4a7a;">
-                        📊 Не просто коллируй — рейз для вэлью!
-                    </span>
+                    ${advice}
                 `;
                 return;
             }
             
+            // Если мы позади — считаем максимальную ставку
             const maxBetPercent = winChance / (1 - 2 * winChance / 100);
             const maxBetRounded = Math.round(maxBetPercent);
             
             let betText = '';
             let betClass = '';
+            let simpleAdvice = '';
             
-            if (maxBetRounded >= 200) {
-                betText = maxBetRounded + '% (2 банка+)';
+            if (maxBetRounded >= 100) {
+                betText = maxBetRounded + '% (можно коллировать банк и больше)';
                 betClass = 'good';
-            } else if (maxBetRounded >= 150) {
-                betText = maxBetRounded + '% (1.5 банка)';
-                betClass = 'good';
-            } else if (maxBetRounded >= 100) {
-                betText = maxBetRounded + '% (банк)';
-                betClass = 'good';
-            } else if (maxBetRounded >= 75) {
-                betText = maxBetRounded + '% (3/4 банка)';
-                betClass = 'good';
+                simpleAdvice = '✅ Отличные шансы! Можно коллировать даже крупные ставки.';
             } else if (maxBetRounded >= 66) {
                 betText = maxBetRounded + '% (2/3 банка)';
-                betClass = 'medium';
+                betClass = 'good';
+                simpleAdvice = '✅ Хорошие шансы! Коллируй ставки до 2/3 банка.';
             } else if (maxBetRounded >= 50) {
                 betText = maxBetRounded + '% (1/2 банка)';
                 betClass = 'medium';
+                simpleAdvice = '⚠️ Средние шансы. Коллируй только ставки до половины банка.';
             } else if (maxBetRounded >= 33) {
                 betText = maxBetRounded + '% (1/3 банка)';
                 betClass = 'bad';
+                simpleAdvice = '⚠️ Плохие шансы. Коллируй только очень маленькие ставки (до 1/3 банка).';
             } else if (maxBetRounded >= 25) {
                 betText = maxBetRounded + '% (1/4 банка)';
                 betClass = 'bad';
+                simpleAdvice = '❌ Очень плохие шансы. Коллируй только если ставка меньше 1/4 банка.';
             } else {
-                betText = maxBetRounded + '% (< 1/4 банка)';
+                betText = maxBetRounded + '% (меньше 1/4 банка)';
                 betClass = 'bad';
+                simpleAdvice = '❌ Шансов почти нет. Лучше сбросить карты.';
             }
             
             maxBetEl.textContent = betText;
@@ -2083,8 +2109,8 @@
             const exampleMaxBet = Math.round(maxBetPercent * examplePot / 100);
             
             oddsTip.innerHTML = `
-                ⚠️ <strong>Можно коллировать до ${maxBetRounded}% от банка.</strong><br>
-                Твои шансы на победу: ${winChance.toFixed(1)}%.<br>
+                ⚠️ <strong>Ты выигрываешь только в ${winChance.toFixed(1)}% случаев.</strong><br>
+                ${simpleAdvice}<br>
                 <span style="font-size:11px; color:#5b4a7a;">
                     📊 Пример: если в банке ${examplePot} фишек, можно коллировать до <strong>~${exampleMaxBet} фишек</strong>.
                 </span>
@@ -2132,7 +2158,7 @@
                 return;
             }
 
-            const NUM_SIMULATIONS = 3000;
+            const NUM_SIMULATIONS = 5000;
             let wins = 0,
                 ties = 0,
                 losses = 0;
@@ -2145,12 +2171,20 @@
                 }
                 const villainCards = [shuffled[cardsNeeded], shuffled[cardsNeeded + 1]];
 
-                const heroHand = evaluateHandSimple(heroCards, fullBoard);
-                const villainHand = evaluateHandSimple(villainCards, fullBoard);
+                const heroHand = evaluateHandDetailed([...heroCards, ...fullBoard]);
+                const villainHand = evaluateHandDetailed([...villainCards, ...fullBoard]);
 
-                if (heroHand > villainHand) wins++;
-                else if (villainHand > heroHand) losses++;
-                else ties++;
+                if (heroHand.handStrength > villainHand.handStrength) {
+                    wins++;
+                } else if (villainHand.handStrength > heroHand.handStrength) {
+                    losses++;
+                } else {
+                    if (heroHand.handName === villainHand.handName) {
+                        ties++;
+                    } else {
+                        ties++;
+                    }
+                }
             }
 
             const winPct = (wins / NUM_SIMULATIONS * 100);
@@ -2169,8 +2203,8 @@
             else if (winEquity > 40) tip = '⚠️ <strong>Небольшое отставание.</strong> У тебя ' + winEquity.toFixed(1) +
                 '%. Хорошие шансы на колл.';
             else if (winEquity > 30) tip = '⚠️ <strong>Серьёзное отставание.</strong> Только ' + winEquity.toFixed(1) +
-                '% — нужны очень хорошие имплайды.';
-            else tip = '❌ <strong>Плохая ситуация.</strong> Всего ' + winEquity.toFixed(1) + '% — лучше пасовать.';
+                '% — можно коллировать только очень маленькие ставки.';
+            else tip = '❌ <strong>Плохая ситуация.</strong> Всего ' + winEquity.toFixed(1) + '% — лучше сбросить карты.';
 
             document.getElementById('equityTip').innerHTML = '💡 ' + tip;
             
@@ -2178,71 +2212,14 @@
         }
 
         // ============================================================
-        //  15. ОЦЕНКА РУКИ (УПРОЩЁННАЯ ДЛЯ ЭКВИТИ)
-        // ============================================================
-        function evaluateHandSimple(holeCards, boardCards) {
-            const allCards = [...holeCards, ...boardCards];
-            let score = 0;
-
-            const ranks = allCards.map(c => RANK_VALUES[c.rank]).sort((a, b) => b - a);
-            score += ranks[0] * 100;
-
-            const rankCount = {};
-            for (let r of ranks) {
-                rankCount[r] = (rankCount[r] || 0) + 1;
-            }
-
-            let pairs = 0,
-                three = false,
-                four = false;
-            for (let [rank, count] of Object.entries(rankCount)) {
-                if (count === 4) four = true;
-                if (count === 3) three = true;
-                if (count === 2) pairs++;
-            }
-
-            if (four) score += 800000;
-            else if (three) score += 400000;
-            else if (pairs === 2) score += 200000;
-            else if (pairs === 1) score += 100000;
-
-            const suits = allCards.map(c => c.suit);
-            const suitCount = {};
-            for (let s of suits) {
-                suitCount[s] = (suitCount[s] || 0) + 1;
-            }
-            let flush = false;
-            for (let [suit, count] of Object.entries(suitCount)) {
-                if (count >= 5) flush = true;
-            }
-            if (flush) score += 300000;
-
-            const uniqueRanks = [...new Set(ranks)].sort((a, b) => b - a);
-            let straight = false;
-            for (let i = 0; i <= uniqueRanks.length - 5; i++) {
-                if (uniqueRanks[i] - uniqueRanks[i + 4] === 4) straight = true;
-            }
-            if (uniqueRanks.includes(14) && uniqueRanks.includes(5) && uniqueRanks.includes(4) && uniqueRanks.includes(3) &&
-                uniqueRanks.includes(2)) {
-                straight = true;
-            }
-            if (straight) score += 500000;
-
-            if (straight && flush) score += 1000000;
-
-            return score;
-        }
-
-        // ============================================================
-        //  16. ИНИЦИАЛИЗАЦИЯ
+        //  15. ИНИЦИАЛИЗАЦИЯ
         // ============================================================
         renderAllCards();
         updateResult();
 
         console.log('♠️ Покерный помощник загружен!');
-        console.log('✅ Исправлена логика комбинаций старше');
-        console.log('✅ Теперь всегда показывает старшую пару на столе, если она бьёт нашу руку');
-        console.log('✅ Пример: KT на флопе T8Q → комбинации старше: Пара (Q)');
+        console.log('✅ Подсказки переписаны простым языком для новичков');
+        console.log('✅ Вместо "нужны имплайды" — "можно коллировать только маленькие ставки"');
     </script>
 
 </body>
